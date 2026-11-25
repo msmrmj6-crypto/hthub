@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0b0f">
+<title>NEXUS AI — Script Studio</title>
+<style>
+:root{color-scheme:dark;--bg:#090a0e;--panel:#14151c;--line:#292b36;--red:#ff3548;--muted:#9a9dab}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f5f7;font:15px system-ui,Arial}
+header{padding:22px 18px 16px;border-bottom:1px solid var(--line);background:#101117}
+.brand{font-size:23px;font-weight:800;letter-spacing:1.5px}.brand span{color:var(--red)}
+header p{margin:6px 0 0;color:var(--muted);font-size:13px}
+main{max-width:850px;margin:auto;padding:16px;display:grid;gap:14px}
+nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button{border:1px solid var(--line);background:var(--panel);color:#eee;padding:12px;border-radius:11px;font-weight:650}
+button.active,.primary{background:var(--red);border-color:var(--red);color:white}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px}
+h2{font-size:17px;margin:0 0 12px}label{display:block;color:var(--muted);font-size:12px;margin:12px 0 6px}
+input,textarea{width:100%;background:#090a0e;color:#f5f5f7;border:1px solid var(--line);border-radius:10px;padding:12px;font:14px system-ui}
+textarea{min-height:210px;resize:vertical;font-family:ui-monospace,monospace;line-height:1.5}
+.note{color:var(--muted);font-size:12px;line-height:1.5}.status{padding:10px;border-radius:9px;background:#21151a;color:#ffb7bf;font-size:12px}
+.hidden{display:none}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+</style>
+</head>
+<body>
+<header><div class="brand">NEXUS <span>AI</span></div><p>Mobile Script Studio · Version 0.1</p></header>
+<main>
+<nav aria-label="Main sections">
+<button class="active" data-tab="studio">Studio</button>
+<button data-tab="library">Library</button>
+<button data-tab="settings">Settings</button>
+</nav>
+<section id="studio" class="panel">
+<h2>AI Script Studio</h2>
+<label for="prompt">Describe what you want to build</label>
+<textarea id="prompt" placeholder="Example: Create a simple inventory system for my own game..."></textarea>
+<div class="actions"><button class="primary" id="draft">Prepare request</button><button id="clear">Clear</button></div>
+<p class="note">This starter version prepares project ideas. AI generation will be connected through a secure server in a later version.</p>
+</section>
+<section id="library" class="panel hidden">
+<h2>My Script Library</h2>
+<p class="note">Your saved project snippets will appear here. No scripts are uploaded or executed automatically.</p>
+</section>
+<section id="settings" class="panel hidden">
+<h2>Connection Settings</h2>
+<label for="endpoint">AI server endpoint</label><input id="endpoint" placeholder="https://your-secure-server.example">
+<p class="note">Do not paste API keys here. A secure backend is required before connecting an AI provider.</p>
+</section>
+<div id="status" class="status" role="status">Ready — NEXUS AI starter interface loaded.</div>
+</main>
+<script>
+const tabs=[...document.querySelectorAll('[data-tab]')];
+tabs.forEach(b=>b.addEventListener('click',()=>{tabs.forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('main section').forEach(s=>s.classList.toggle('hidden',s.id!==b.dataset.tab));}));
+const status=document.getElementById('status');
+document.getElementById('draft').addEventListener('click',()=>{const p=document.getElementById('prompt').value.trim();status.textContent=p?'Request prepared locally. AI connection is not configured yet.':'Write a short description first.';});
+document.getElementById('clear').addEventListener('click',()=>{document.getElementById('prompt').value='';status.textContent='Editor cleared.';});
+</script>
+</body>
+</html>
